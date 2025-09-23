@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-//creation d'un props pour le component
+//definition du props
 type PropsHeader ={
     title: string;
 }
@@ -15,9 +15,10 @@ const Header =({title}: PropsHeader) => {
 export default Header;
 const styles = StyleSheet.create({
     header:{
-        height: 80,
-        paddingTop: 38,
-        backgroundColor: "coral"
+        height: 90,
+        paddingTop: 40,
+        backgroundColor: "coral",
+        width: '100%'
     }
     ,
     title:{
