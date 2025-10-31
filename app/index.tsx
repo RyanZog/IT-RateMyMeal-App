@@ -40,6 +40,7 @@ export default function Index() {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <MealCard 
+              id={item.id}        
               name={item.nom} 
               note={item.note} 
               image={item.image}
