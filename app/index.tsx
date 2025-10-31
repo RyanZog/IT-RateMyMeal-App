@@ -1,3 +1,4 @@
+import AddMealForm from "@/components/AddMealForm";
 import MealCard from "@/components/Mealcard";
 import { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -22,6 +23,7 @@ export default function Index() {
           <MealCard name="Salad" note={3.5} image={require('../assets/meal/salad.jpg')}/>
         </View>
       </ScrollView>
+      <AddMealForm />
     </View>
   );
 }
