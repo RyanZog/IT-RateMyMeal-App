@@ -1,3 +1,4 @@
+import AddMealForm from "@/components/AddMealForm";
 import MealCard from "@/components/Mealcard";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -24,6 +25,8 @@ export default function Index() {
   }
 
   return (
+    
+
     <View style={styles.container}>
       <Header title="RateMyMeal"/>
       <Text style = {styles.welcome} >Bienvenue sur RateMyMeal</Text>
@@ -33,16 +36,25 @@ export default function Index() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     backgroundColor: '#f5f5f5'
   },
   welcome: {
     fontSize: 18,
     marginVertical: 20,
-    fontWeight: '500'
+    fontWeight: '500',
+    textAlign: 'center'
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center'
+  },
+  cardContainer: {
+    flexDirection: 'row',
+    padding: 10,
+    gap: 15 // Espace entre les cartes
   }
-})
-
+});
