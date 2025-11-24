@@ -14,7 +14,7 @@ const MealCard = ({ id, name, note, image }: PropsMeal) => {
     const router = useRouter();
 
     const handlePress = () => {
-        /** Cette modification est nécessaire car Next.js 
+        /** Cette modification est nécessaire car Metro 
  * attend des formats de route spécifiques plutôt que des chemins construits dynamiquement */
 /* Je dois me renseigner plus dessus */
         router.push({ pathname: "/meal/[id]", params: { id } });

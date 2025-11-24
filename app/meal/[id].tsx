@@ -6,7 +6,7 @@ on verra demain flemme aujourd'hui */
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
-const mockMeals = [
+const BaseMeals = [
   { id: 1, nom: "Pizza", note: 4.5, image: require("../../assets/meal/PizzaMargherita.jpg") },
   { id: 2, nom: "Pasta", note: 4.0, image: require("../../assets/meal/Pasta.jpg") },
   { id: 3, nom: "Salad", note: 3.5, image: require("../../assets/meal/salad.jpg") },
@@ -17,7 +17,7 @@ export default function MealDetail() {
   const router = useRouter();
   
   // Trouver le plat correspondant à l'ID
-  const meal = mockMeals.find(m => m.id === parseInt(id as string));
+  const meal = BaseMeals.find(m => m.id === parseInt(id as string));
   
   if (!meal) {
     return (
