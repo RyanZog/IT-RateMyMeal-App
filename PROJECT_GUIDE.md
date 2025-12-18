@@ -14,7 +14,6 @@ RateMyMeal est une application mobile **journal personnel de repas**. L'utilisat
 - 👀 Consulter l'historique de tous ses repas
 - 🗑️ Supprimer des repas
 
----
 
 ## 🏗️ **ARCHITECTURE GÉNÉRALE**
 
@@ -209,7 +208,6 @@ Modifications mises à jour partout automatiquement
 - Le bouton retour ne crée pas de doubles écrans
 - Le contexte est accessible partout
 
----
 
 
 ## 📦 **DÉPENDANCES CLÉS**
@@ -223,10 +221,4 @@ Modifications mises à jour partout automatiquement
 }
 ```
 
----
 
-
-
----
-
-**Vous êtes prêt pour le Milestone 4 ? Dites-moi ! 🚀**
