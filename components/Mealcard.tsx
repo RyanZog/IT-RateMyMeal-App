@@ -12,6 +12,7 @@ type PropsMeal = {
 const MealCard = ({ id, name, note, image }: PropsMeal) => {
   const router = useRouter();
 
+<<<<<<< HEAD
   const handlePress = () => {
     router.push({ pathname: "/meal/[id]", params: { id } });
   };
@@ -29,6 +30,30 @@ const MealCard = ({ id, name, note, image }: PropsMeal) => {
       <Text style={styles.tapHint}>👆 Appuyer pour voir les détails</Text>
     </Pressable>
   );
+=======
+    const handlePress = () => {
+        /** Cette modification est nécessaire car Metro.js 
+ * attend des formats de route spécifiques plutôt que des chemins construits dynamiquement */
+/* Je dois me renseigner plus dessus */
+        router.push({ pathname: "/meal/[id]", params: { id } });
+    };
+
+    return (
+        <Pressable style={styles.card} onPress={handlePress}>
+            {image && (
+                <Image style={styles.image} source={{ image }} />
+            )}
+            {!image && (
+                <View style={styles.placeholderImage}>
+                    <Text style={styles.placeholderText}>📷</Text>
+                </View>
+            )}
+            <Text style={styles.text}>Nom: {name}</Text>
+            <Text style={styles.text}>Note: {note}/5</Text>
+            <Text style={styles.tapHint}>👆 Appuyer pour voir les détails</Text>
+        </Pressable>
+    );
+>>>>>>> 62fd85cc403d99094df1e145839928c908c4191b
 };
 
 export default MealCard;
