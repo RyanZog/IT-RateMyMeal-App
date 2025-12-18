@@ -1,23 +1,13 @@
-/* Soucis les plats ajoutes via notre fonction passer en parametre ne sont pas dans 
-les details 
-je sais
-Faut qu'elle soit accessible surement grace au context
-on verra demain flemme aujourd'hui */
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { Image, StyleSheet, Text, View } from 'react-native';
-
-const BaseMeals = [
-  { id: 1, nom: "Pizza", note: 4.5, image: require("../../assets/meal/PizzaMargherita.jpg") },
-  { id: 2, nom: "Pasta", note: 4.0, image: require("../../assets/meal/Pasta.jpg") },
-  { id: 3, nom: "Salad", note: 3.5, image: require("../../assets/meal/salad.jpg") },
-];
+import { useMeals } from '../../context/MealsContext';
 
 export default function MealDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const router = useRouter();
+  const { meals } = useMeals();
   
   // Trouver le plat correspondant à l'ID
-  const meal = BaseMeals.find(m => m.id === parseInt(id as string));
+  const meal = meals.find(m => m.id === parseInt(id as string));
   
   if (!meal) {
     return (

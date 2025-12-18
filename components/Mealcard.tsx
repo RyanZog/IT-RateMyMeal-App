@@ -23,7 +23,7 @@ const MealCard = ({ id, name, note, image }: PropsMeal) => {
     return (
         <Pressable style={styles.card} onPress={handlePress}>
             {image && (
-                <Image style={styles.image} source={{ uri: image }} />
+                <Image style={styles.image} source={{ image }} />
             )}
             {!image && (
                 <View style={styles.placeholderImage}>
