@@ -1,4 +1,4 @@
-# 📱 RateMyMeal - Guide du Projet Complet
+# 📱 RateMyMeal - Guide du Projet 
 
 **Dernière mise à jour :** 18 décembre 2025  
 **Langue :** Français
@@ -144,69 +144,7 @@ Modifications mises à jour partout automatiquement
 
 ---
 
-## 🛠️ **NOTRE MÉTHODE DE TRAVAIL**
 
-### Vous me demandez...
-```
-"Peux-tu m'aider à [tâche spécifique] ?"
-```
-
-### Je vais répondre comme un **superviseur/camarade** :
-
-1. **Comprendre le problème** → Je lis le code/contexte
-2. **Expliquer clairement** → Avant de coder, j'explique le "pourquoi"
-3. **Progresser étape par étape** → Pas de tout faire d'un coup
-4. **Vous laisser programmer** → Je vous guide, je ne code que si nécessaire
-5. **Valider ensemble** → On teste et on s'assure que c'est bon
-
-### Nos principes :
-
-- ✅ **Étape par étape** → Un concept à la fois
-- ✅ **Clarté avant code** → Comprendre avant implémenter
-- ✅ **Votre progression** → Je vous pousse à réfléchir
-- ✅ **Documentation** → On documente le code
-- ✅ **Tests** → On teste chaque changement
-
----
-
-## 📝 **LES PROMPTS À UTILISER**
-
-### Pour demander de l'aide sur un Milestone :
-```
-"Je veux progresser sur le Milestone [numéro]. 
-Peux-tu m'expliquer étape par étape ce qu'il faut faire ?"
-```
-
-### Pour un problème spécifique :
-```
-"J'ai un problème avec [composant].
-Peux-tu m'aider à déboguer ? Voici le problème : [description]"
-```
-
-### Pour expliquer un concept :
-```
-"Je ne comprends pas [concept].
-Peux-tu m'l'expliquer simplement ?"
-```
-
-### Pour une fonctionnalité :
-```
-"Je veux ajouter [fonctionnalité].
-Comment je dois m'y prendre ?"
-```
-
-### Pour validation :
-```
-"J'ai implémenté [truc]. Est-ce bon ? Ça fonctionne bien ?"
-```
-
-### Pour une révision complète :
-```
-"Fais-moi une révision du Milestone [numéro].
-Qu'est-ce qui fonctionne bien ? Qu'est-ce qui pourrait s'améliorer ?"
-```
-
----
 
 ## 📋 **CRITÈRES DE SUCCÈS**
 
@@ -273,37 +211,6 @@ Qu'est-ce qui fonctionne bien ? Qu'est-ce qui pourrait s'améliorer ?"
 
 ---
 
-## 📞 **COMMENT COMMUNIQUER**
-
-### Avant chaque Milestone :
-Vous : "Je veux faire le Milestone [X]. C'est quoi les étapes ?"  
-Moi : Je vous explique simplement, étape par étape
-
-### Pendant le Milestone :
-Vous : "J'ai fait la step 1, ça marche. Et la step 2, comment ?"  
-Moi : Je vous explique la suivante
-
-### Après le Milestone :
-Vous : "J'ai fini le Milestone [X]. C'est bon ?"  
-Moi : Je valide, je signale les améliorations possibles
-
-### En cas de bug :
-Vous : "Ça ne marche pas quand je..."  
-Moi : Je vous aide à déboguer ensemble
-
----
-
-## 🎓 **CE QUE VOUS APPRENEZ**
-
-Par Milestone, vous maîtrisez :
-
-- **M1-2 :** React, composants, état, communication
-- **M3 :** Navigation, Expo Router, paramètres d'URL
-- **M4 :** Bases de données, SQLite, persistence
-- **M5 :** Permissions natives, appareil photo
-- **M6 :** Build et distribution
-
----
 
 ## 📦 **DÉPENDANCES CLÉS**
 
@@ -318,12 +225,7 @@ Par Milestone, vous maîtrisez :
 
 ---
 
-## ✨ **PROCHAINES ÉTAPES**
 
-1. ✅ Vérifier que M1-3 fonctionne bien
-2. 🔄 Préparation Milestone 4 (SQLite)
-3. 🔄 Préparation Milestone 5 (Images)
-4. 🔄 Préparation Milestone 6 (Build)
 
 ---
 
