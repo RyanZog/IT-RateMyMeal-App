@@ -1,9 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+
 //definition du props
 type PropsHeader ={
     title: string;
 }
+
 //component pour le titre de l'App
 const Header =({title}: PropsHeader) => {
     return (

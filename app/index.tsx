@@ -1,31 +1,14 @@
-import AddMealForm from "@/components/AddMealForm";
+//je dois gerer le type de Image 
+ 
 import MealCard from "@/components/Mealcard";
-import { useState } from "react";
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import Header from "../components/Header";
-
-type Meal = {
-  id: number;
-  nom: string;
-  note: number;
-  image?: string;
-};
+import { useMeals } from "../context/MealsContext";
 
 export default function Index() {
-  const [meals, setMeals] = useState<Meal[]>([
-    { id: 1, nom: "Pizza", note: 4.5, image: require("../assets/meal/PizzaMargherita.jpg") },
-    { id: 2, nom: "Pasta", note: 4.0, image: require("../assets/meal/Pasta.jpg") },
-    { id: 3, nom: "Salad", note: 3.5, image: require("../assets/meal/salad.jpg") },
-  ]);
-
-  const addMeal = (nom: string, note: number) => {
-    const newMeal: Meal = {
-      id: meals.length + 1,
-      nom: nom,
-      note: note
-    };
-    setMeals([...meals, newMeal]);
-  };
+  const { meals } = useMeals();
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
@@ -50,8 +33,13 @@ export default function Index() {
           scrollEnabled={false} // Désactive le scroll interne
         />
         
-        {/* Formulaire d'ajout */}
-        <AddMealForm onAddMeal={addMeal} />
+        {/* Bouton pour ajouter un plat */}
+        <Pressable 
+          style={styles.addButton}
+          onPress={() => router.push('/add')}
+        >
+          <Text style={styles.addButtonText}>+ Ajouter un nouveau repas</Text>
+        </Pressable>
       </ScrollView>
     </View>
   );
@@ -73,5 +61,17 @@ const styles = StyleSheet.create({
   },
   mealsSection: {
     paddingHorizontal: 10,
+  },
+  addButton: {
+    backgroundColor: 'coral',
+    padding: 15,
+    margin: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   }
 });
