@@ -14,7 +14,7 @@ const MealCard = ({ id, name, note, image }: PropsMeal) => {
     const router = useRouter();
 
     const handlePress = () => {
-        /** Cette modification est nécessaire car Metro 
+        /** Cette modification est nécessaire car Metro.js 
  * attend des formats de route spécifiques plutôt que des chemins construits dynamiquement */
 /* Je dois me renseigner plus dessus */
         router.push({ pathname: "/meal/[id]", params: { id } });
@@ -23,7 +23,7 @@ const MealCard = ({ id, name, note, image }: PropsMeal) => {
     return (
         <Pressable style={styles.card} onPress={handlePress}>
             {image && (
-                <Image style={styles.image} source={image} />
+                <Image style={styles.image} source={{ uri: image }} />
             )}
             {!image && (
                 <View style={styles.placeholderImage}>
