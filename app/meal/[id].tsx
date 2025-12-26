@@ -1,13 +1,39 @@
-import { useLocalSearchParams } from 'expo-router';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useMeals } from '../../context/MealsContext';
 
 export default function MealDetail() {
+  const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { meals } = useMeals();
+  const { meals, deleteMeal } = useMeals();
   
-  // Trouver le plat correspondant à l'ID
+  // Trouver le plat correspondant a l'ID
   const meal = meals.find(m => m.id === parseInt(id as string));
+  
+  const handleDelete = async () => {
+    if (!meal) return;
+    
+    // Affiche une alerte de confirmation (React Native)
+    Alert.alert(
+      'Supprimer le repas',
+      `Êtes-vous sûr de vouloir supprimer "${meal.nom}" ?`,
+      [
+        {
+          text: 'Annuler',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Supprimer',
+          onPress: async () => {
+            await deleteMeal(meal.id);
+            router.back();
+          },
+          style: 'destructive',
+        },
+      ]
+    );
+  };
   
   if (!meal) {
     return (
@@ -37,6 +63,23 @@ export default function MealDetail() {
             <Text style={styles.detailText}>Nom: {meal.nom}</Text>
             <Text style={styles.detailText}>Note: {meal.note} étoiles</Text>
             <Text style={styles.detailText}>ID: {meal.id}</Text>
+          </View>
+
+          {/* Boutons d'action */}
+          <View style={styles.buttonContainer}>
+            <Pressable 
+              style={[styles.button, styles.updateButton]} 
+              onPress={() => router.push(`/edit/${meal.id}`)}
+            >
+              <Text style={styles.buttonText}>✏️ Modifier</Text>
+            </Pressable>
+            
+            <Pressable 
+              style={[styles.button, styles.deleteButton]} 
+              onPress={handleDelete}
+            >
+              <Text style={styles.buttonText}>🗑️ Supprimer</Text>
+            </Pressable>
           </View>
         </View>
       </View>
@@ -93,6 +136,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
     color: '#666',
+  },
+  buttonContainer: {
+    marginTop: 20,
+    gap: 10,
+  },
+  button: {
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  updateButton: {
+    backgroundColor: '#4CAF50',
+  },
+  deleteButton: {
+    backgroundColor: '#FF6B6B',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   backButton: {
     backgroundColor: 'coral',

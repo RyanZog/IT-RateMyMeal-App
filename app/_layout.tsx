@@ -38,6 +38,19 @@ export default function RootLayout() {
             },
           }} 
         />
+        <Stack.Screen 
+          name="edit/[id]" 
+          options={{ 
+            title: 'Modifier le repas',
+            headerStyle: {
+              backgroundColor: '#4CAF50',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }} 
+        />
       </Stack>
     </MealsProvider>
   );

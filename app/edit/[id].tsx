@@ -1,20 +1,35 @@
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useMeals } from '../context/MealsContext';
+import { useMeals } from '../../context/MealsContext';
 
-export default function AddMealScreen() {
+export default function EditMealScreen() {
   const router = useRouter();
-  const { addMeal } = useMeals();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const { meals, updateMeal } = useMeals();
+  
   const [nom, setNom] = useState<string>("");
   const [note, setNote] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleAddMeal = async () => {
+  // Charge les données du repas à modifier
+  useEffect(() => {
+    const meal = meals.find(m => m.id === parseInt(id as string));
+    if (meal) {
+      setNom(meal.nom);
+      setNote(meal.note.toString());
+      setIsLoading(false);
+    }
+  }, [id, meals]);
+
+  const handleUpdateMeal = async () => {
+    const mealId = parseInt(id as string);
+    
     if (nom.trim() !== "" && note.trim() !== "") {
       const noteNumber = parseFloat(note);
       if (noteNumber >= 0 && noteNumber <= 5) {
-        await addMeal(nom.trim(), noteNumber);
-        // Retour à l'accueil après ajout
+        await updateMeal(mealId, nom.trim(), noteNumber);
+        // Retour à la page de détail après modification
         router.back();
       } else {
         alert("La note doit être entre 0 et 5");
@@ -24,10 +39,18 @@ export default function AddMealScreen() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <Text>Chargement...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-        <Text style={styles.title}>Ajouter un nouveau repas</Text>
+        <Text style={styles.title}>Modifier le repas</Text>
 
         <TextInput
           style={styles.input}
@@ -44,8 +67,8 @@ export default function AddMealScreen() {
           keyboardType="numeric"
         />
 
-        <Pressable style={styles.button} onPress={handleAddMeal}>
-          <Text style={styles.buttonText}>Ajouter</Text>
+        <Pressable style={styles.button} onPress={handleUpdateMeal}>
+          <Text style={styles.buttonText}>Enregistrer</Text>
         </Pressable>
 
         <Pressable 
@@ -79,25 +102,25 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 16,
+    borderColor: '#ddd',
+    padding: 12,
     marginBottom: 15,
+    borderRadius: 8,
+    fontSize: 16,
   },
   button: {
-    backgroundColor: 'coral',
+    backgroundColor: '#4CAF50',
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 10,
     alignItems: 'center',
     marginBottom: 10,
-  },
-  cancelButton: {
-    backgroundColor: '#999',
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  cancelButton: {
+    backgroundColor: '#999',
   },
 });

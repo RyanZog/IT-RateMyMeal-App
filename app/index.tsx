@@ -17,7 +17,6 @@ export default function Index() {
       <ScrollView style={styles.content}>
         <Text style={styles.welcome}>Bienvenue sur RateMyMeal</Text>
         
-        
         <FlatList
           data={meals}
           keyExtractor={(item) => item.id.toString()}
