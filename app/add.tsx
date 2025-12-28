@@ -29,7 +29,7 @@ export default function AddMealScreen() {
     if (!hasPermission) return;
 
     const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: [ImagePicker.MediaType.IMAGE],
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       aspect: [4, 3],
       quality: 1,
     });
