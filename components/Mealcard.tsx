@@ -6,10 +6,10 @@ type PropsMeal = {
   id: number;
   name: string;
   note: number;
-  image?: string;
+  imageUrl?: string;
 };
 
-const MealCard = ({ id, name, note, image }: PropsMeal) => {
+const MealCard = ({ id, name, note, imageUrl }: PropsMeal) => {
   const router = useRouter();
 
   const handlePress = () => {
@@ -18,8 +18,8 @@ const MealCard = ({ id, name, note, image }: PropsMeal) => {
 
   return (
     <Pressable style={styles.card} onPress={handlePress}>
-      {image && <Image style={styles.image} source={ {image }} />}
-      {!image && (
+      {imageUrl && <Image style={styles.image} source={{ uri: imageUrl }} />}
+      {!imageUrl && (
         <View style={styles.placeholderImage}>
           <Text style={styles.placeholderText}>📷</Text>
         </View>

@@ -1,7 +1,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { ImageRequireSource } from "react-native";
 import {
   addMeal as addMealToDb,
+  deleteAllMeals,
   deleteMeal as deleteMealFromDb,
   getAllMeals,
   initializeDatabase,
@@ -12,7 +12,7 @@ export type Meal = {
   id: number;
   nom: string;
   note: number;
-  image?: ImageRequireSource | string;
+  imageUrl?: string;
 };
 
 //definition du type du contexte
@@ -21,6 +21,7 @@ type MealsContextType = {
   addMeal: (nom: string, note: number) => Promise<void>;
   deleteMeal: (id: number) => Promise<void>;
   updateMeal: (id: number, nom: string, note: number) => Promise<void>;
+  clearAllMeals: () => Promise<void>;
   isLoading: boolean;
 };
 
@@ -41,19 +42,7 @@ export function MealsProvider({ children }: { children: ReactNode }) {
 
         // Charge tous les repas depuis la BD
         const mealsFromDb = await getAllMeals();
-        
-        // Si la BD est vide, ajoute les 3 repas par défaut
-        if (mealsFromDb.length === 0) {
-          await addMealToDb("Pizza", 4.5);
-          await addMealToDb("Pasta", 4.0);
-          await addMealToDb("Salad", 3.5);
-          
-          // Recharge après ajout des données par défaut
-          const reloadedMeals = await getAllMeals();
-          setMeals(reloadedMeals as Meal[]);
-        } else {
-          setMeals(mealsFromDb as Meal[]);
-        }
+        setMeals(mealsFromDb as Meal[]);
       } catch (error) {
         console.error('Error setting up database:', error);
         setMeals([]);
@@ -67,6 +56,17 @@ export function MealsProvider({ children }: { children: ReactNode }) {
 
   const addMeal = async (nom: string, note: number) => {
     try {
+      // Vérifie si un repas avec le même nom existe déjà (case-insensitive)
+      const isDuplicate = meals.some(
+        meal => meal.nom.toLowerCase() === nom.toLowerCase()
+      );
+      
+      if (isDuplicate) {
+        throw new Error(`Un repas nommé "${nom}" existe déjà!`);
+      }
+
+      setIsLoading(true);
+      
       // Ajoute à la BD
       const id = await addMealToDb(nom, note);
       
@@ -81,11 +81,16 @@ export function MealsProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error('Error adding meal:', error);
+      throw error; // Relance l'erreur pour le formulaire
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const deleteMeal = async (id: number) => {
     try {
+      setIsLoading(true);
+      
       // Supprime de la BD
       const success = await deleteMealFromDb(id);
       
@@ -95,11 +100,24 @@ export function MealsProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error('Error deleting meal:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const updateMeal = async (id: number, nom: string, note: number) => {
     try {
+      // Vérifie si un autre repas a le même nom
+      const isDuplicate = meals.some(
+        meal => meal.id !== id && meal.nom.toLowerCase() === nom.toLowerCase()
+      );
+      
+      if (isDuplicate) {
+        throw new Error(`Un autre repas nommé "${nom}" existe déjà!`);
+      }
+
+      setIsLoading(true);
+      
       // Met à jour dans la BD
       const success = await updateMealInDb(id, nom, note);
       
@@ -113,11 +131,31 @@ export function MealsProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error('Error updating meal:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const clearAllMeals = async () => {
+    try {
+      setIsLoading(true);
+      
+      // Vide complètement la BD
+      await deleteAllMeals();
+      
+      // Vide aussi l'état React
+      setMeals([]);
+    } catch (error) {
+      console.error('Error clearing all meals:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <MealsContext.Provider value={{ meals, addMeal, deleteMeal, updateMeal, isLoading }}>
+    <MealsContext.Provider value={{ meals, addMeal, deleteMeal, updateMeal, clearAllMeals, isLoading }}>
       {children}
     </MealsContext.Provider>
   );

@@ -49,8 +49,8 @@ export default function MealDetail() {
       
       <View style={styles.content}>
         <View style={styles.imageContainer}>
-          {meal.image && (
-            <Image source={meal.image} style={styles.image} />
+          {meal.imageUrl && (
+            <Image source={{ uri: meal.imageUrl }} style={styles.image} />
           )}
         </View>
         

@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useMeals } from '../../context/MealsContext';
 
 export default function EditMealScreen() {
@@ -28,14 +28,18 @@ export default function EditMealScreen() {
     if (nom.trim() !== "" && note.trim() !== "") {
       const noteNumber = parseFloat(note);
       if (noteNumber >= 0 && noteNumber <= 5) {
-        await updateMeal(mealId, nom.trim(), noteNumber);
-        // Retour à la page de détail après modification
-        router.back();
+        try {
+          await updateMeal(mealId, nom.trim(), noteNumber);
+          // Retour à la page de détail après modification
+          router.back();
+        } catch (error: any) {
+          Alert.alert('Erreur', error.message);
+        }
       } else {
-        alert("La note doit être entre 0 et 5");
+        Alert.alert('Erreur', 'La note doit être entre 0 et 5');
       }
     } else {
-      alert("Veuillez remplir tous les champs");
+      Alert.alert('Erreur', 'Veuillez remplir tous les champs');
     }
   };
 
