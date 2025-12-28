@@ -18,9 +18,9 @@ export type Meal = {
 //definition du type du contexte
 type MealsContextType = {
   meals: Meal[];
-  addMeal: (nom: string, note: number) => Promise<void>;
+  addMeal: (nom: string, note: number, imageUrl?: string) => Promise<void>;
   deleteMeal: (id: number) => Promise<void>;
-  updateMeal: (id: number, nom: string, note: number) => Promise<void>;
+  updateMeal: (id: number, nom: string, note: number, imageUrl?: string) => Promise<void>;
   clearAllMeals: () => Promise<void>;
   isLoading: boolean;
 };
@@ -54,7 +54,7 @@ export function MealsProvider({ children }: { children: ReactNode }) {
     setupDatabase();
   }, []);
 
-  const addMeal = async (nom: string, note: number) => {
+  const addMeal = async (nom: string, note: number, imageUrl?: string) => {
     try {
       // Vérifie si un repas avec le même nom existe déjà (case-insensitive)
       const isDuplicate = meals.some(
@@ -68,7 +68,7 @@ export function MealsProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
       
       // Ajoute à la BD
-      const id = await addMealToDb(nom, note);
+      const id = await addMealToDb(nom, note, imageUrl);
       
       if (id) {
         // Ajoute aussi à l'état React pour mise à jour immédiate
@@ -76,6 +76,7 @@ export function MealsProvider({ children }: { children: ReactNode }) {
           id: id as number,
           nom,
           note,
+          imageUrl,
         };
         setMeals((prev) => [...prev, newMeal]);
       }
@@ -105,7 +106,7 @@ export function MealsProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const updateMeal = async (id: number, nom: string, note: number) => {
+  const updateMeal = async (id: number, nom: string, note: number, imageUrl?: string) => {
     try {
       // Vérifie si un autre repas a le même nom
       const isDuplicate = meals.some(
@@ -119,13 +120,13 @@ export function MealsProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
       
       // Met à jour dans la BD
-      const success = await updateMealInDb(id, nom, note);
+      const success = await updateMealInDb(id, nom, note, imageUrl);
       
       if (success) {
         // Met à jour aussi dans l'état React
         setMeals((prev) =>
           prev.map((m) =>
-            m.id === id ? { ...m, nom, note } : m
+            m.id === id ? { ...m, nom, note, imageUrl } : m
           )
         );
       }

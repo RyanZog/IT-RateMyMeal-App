@@ -1,21 +1,51 @@
+import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useMeals } from '../context/MealsContext';
+import { PLACEHOLDER_IMAGE_URL } from '../lib/database';
 
 export default function AddMealScreen() {
   const router = useRouter();
   const { addMeal } = useMeals();
   const [nom, setNom] = useState<string>("");
   const [note, setNote] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+
+  const verifyPermissions = async () => {
+    const { status } = await ImagePicker.getCameraPermissionsAsync();
+    if (status !== 'granted') {
+      const { status: newStatus } = await ImagePicker.requestCameraPermissionsAsync();
+      if (newStatus !== 'granted') {
+        Alert.alert('Permission refusée', 'Vous devez autoriser l\'accès à la caméra pour utiliser cette fonctionnalité.');
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const handlePickImage = async () => {
+    const hasPermission = await verifyPermissions();
+    if (!hasPermission) return;
+
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: [ImagePicker.MediaType.IMAGE],
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets && result.assets[0]) {
+      setImageUrl(result.assets[0].uri);
+    }
+  };
 
   const handleAddMeal = async () => {
     if (nom.trim() !== "" && note.trim() !== "") {
       const noteNumber = parseFloat(note);
       if (noteNumber >= 0 && noteNumber <= 5) {
         try {
-          await addMeal(nom.trim(), noteNumber);
-          // Retour à l'accueil après ajout
+          // imageUrl optionnelle : DB fournit le placeholder par défaut
+          await addMeal(nom.trim(), noteNumber, imageUrl || PLACEHOLDER_IMAGE_URL);
           router.back();
         } catch (error: any) {
           Alert.alert('Erreur', error.message);
@@ -47,6 +77,22 @@ export default function AddMealScreen() {
           placeholder="Note (entre 0 et 5)"
           keyboardType="numeric"
         />
+
+        <Pressable style={styles.cameraButton} onPress={handlePickImage}>
+          <Text style={styles.buttonText}>📷 Prendre une photo</Text>
+        </Pressable>
+
+        {imageUrl && (
+          <View style={styles.imagePreview}>
+            <Image source={{ uri: imageUrl }} style={styles.previewImage} />
+            <Pressable 
+              style={styles.removeImageButton}
+              onPress={() => setImageUrl("")}
+            >
+              <Text style={styles.removeImageText}>❌ Supprimer</Text>
+            </Pressable>
+          </View>
+        )}
 
         <Pressable style={styles.button} onPress={handleAddMeal}>
           <Text style={styles.buttonText}>Ajouter</Text>
@@ -88,6 +134,32 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     marginBottom: 15,
+  },
+  cameraButton: {
+    backgroundColor: '#4CAF50',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  imagePreview: {
+    marginBottom: 15,
+    alignItems: 'center',
+  },
+  previewImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  removeImageButton: {
+    padding: 8,
+    backgroundColor: '#ffebee',
+    borderRadius: 5,
+  },
+  removeImageText: {
+    color: '#c62828',
+    fontWeight: 'bold',
   },
   button: {
     backgroundColor: 'coral',
