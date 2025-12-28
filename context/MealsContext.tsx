@@ -15,7 +15,7 @@ export type Meal = {
   imageUrl?: string;
 };
 
-//definition du type du contexte
+// Context type definition
 type MealsContextType = {
   meals: Meal[];
   addMeal: (nom: string, note: number, imageUrl?: string) => Promise<void>;
@@ -25,22 +25,22 @@ type MealsContextType = {
   isLoading: boolean;
 };
 
-//le chef d'orchestre pour gerer les repas
+// Context manager for meals
 const MealsContext = createContext<MealsContextType | undefined>(undefined);
 
-//je dois gerer l'etat des repas notamment les images pour les ajouts et suppresions
+// Manage meal state and images
 export function MealsProvider({ children }: { children: ReactNode }) {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Initialise la BD et charge les données au démarrage
+  // Initialize database and load data on startup
   useEffect(() => {
     const setupDatabase = async () => {
       try {
-        // Initialise la base de données
+        // Initialize database
         await initializeDatabase();
 
-        // Charge tous les repas depuis la BD
+        // Load all meals from database
         const mealsFromDb = await getAllMeals();
         setMeals(mealsFromDb as Meal[]);
       } catch (error) {
@@ -56,22 +56,22 @@ export function MealsProvider({ children }: { children: ReactNode }) {
 
   const addMeal = async (nom: string, note: number, imageUrl?: string) => {
     try {
-      // Vérifie si un repas avec le même nom existe déjà (case-insensitive)
+      // Check if a meal with the same name already exists (case-insensitive)
       const isDuplicate = meals.some(
         meal => meal.nom.toLowerCase() === nom.toLowerCase()
       );
       
       if (isDuplicate) {
-        throw new Error(`Un repas nommé "${nom}" existe déjà!`);
+        throw new Error(`A meal named "${nom}" already exists!`);
       }
 
       setIsLoading(true);
       
-      // Ajoute à la BD
+      // Add to database
       const id = await addMealToDb(nom, note, imageUrl);
       
       if (id) {
-        // Ajoute aussi à l'état React pour mise à jour immédiate
+        // Also add to React state for immediate update
         const newMeal: Meal = {
           id: id as number,
           nom,
@@ -82,7 +82,7 @@ export function MealsProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error('Error adding meal:', error);
-      throw error; // Relance l'erreur pour le formulaire
+      throw error; // Re-throw error for the form
     } finally {
       setIsLoading(false);
     }
@@ -92,11 +92,11 @@ export function MealsProvider({ children }: { children: ReactNode }) {
     try {
       setIsLoading(true);
       
-      // Supprime de la BD
+      // Delete from database
       const success = await deleteMealFromDb(id);
       
       if (success) {
-        // Supprime aussi de l'état React
+        // Also delete from React state
         setMeals((prev) => prev.filter((m) => m.id !== id));
       }
     } catch (error) {
@@ -108,22 +108,22 @@ export function MealsProvider({ children }: { children: ReactNode }) {
 
   const updateMeal = async (id: number, nom: string, note: number, imageUrl?: string) => {
     try {
-      // Vérifie si un autre repas a le même nom
+      // Check if another meal has the same name
       const isDuplicate = meals.some(
         meal => meal.id !== id && meal.nom.toLowerCase() === nom.toLowerCase()
       );
       
       if (isDuplicate) {
-        throw new Error(`Un autre repas nommé "${nom}" existe déjà!`);
+        throw new Error(`Another meal named "${nom}" already exists!`);
       }
 
       setIsLoading(true);
       
-      // Met à jour dans la BD
+      // Update in database
       const success = await updateMealInDb(id, nom, note, imageUrl);
       
       if (success) {
-        // Met à jour aussi dans l'état React
+        // Also update in React state
         setMeals((prev) =>
           prev.map((m) =>
             m.id === id ? { ...m, nom, note, imageUrl } : m
@@ -142,10 +142,10 @@ export function MealsProvider({ children }: { children: ReactNode }) {
     try {
       setIsLoading(true);
       
-      // Vide complètement la BD
+      // Completely empty the database
       await deleteAllMeals();
       
-      // Vide aussi l'état React
+      // Also empty the React state
       setMeals([]);
     } catch (error) {
       console.error('Error clearing all meals:', error);
@@ -162,10 +162,10 @@ export function MealsProvider({ children }: { children: ReactNode }) {
   );
 }
 
-//hook personnalise pour acceder au contexte des repas
+// Custom hook to access meal context
 export function useMeals() {
   const context = useContext(MealsContext);
-  // s'assure que le contexte est utilise dans le provider
+  // Ensure context is used within the provider
   if (!context) throw new Error("useMeals must be used within MealsProvider");
   return context;
 }

@@ -14,18 +14,17 @@ export default function MealDetail() {
   const handleDelete = async () => {
     if (!meal) return;
     
-    // Affiche une alerte de confirmation (React Native)
     Alert.alert(
-      'Supprimer le repas',
-      `Êtes-vous sûr de vouloir supprimer "${meal.nom}" ?`,
+      'Delete Meal',
+      `Are you sure you want to delete "${meal.nom}" ?`,
       [
         {
-          text: 'Annuler',
+          text: 'Cancel',
           onPress: () => {},
           style: 'cancel',
         },
         {
-          text: 'Supprimer',
+          text: 'Delete',
           onPress: async () => {
             await deleteMeal(meal.id);
             router.back();
@@ -39,18 +38,18 @@ export default function MealDetail() {
   if (!meal) {
     return (
       <View style={styles.container}>
-        <Text>Ce plat n'existe pas</Text>
+        <Text>This meal does not exist</Text>
       </View>
     );
   }
 
-  // Vérifier si c'est une vraie photo ou le placeholder
   const isPlaceholder = !meal.imageUrl || meal.imageUrl === PLACEHOLDER_IMAGE_URL;
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
         {/* Image avec fallback */}
+        <View stylwith fallback */}
         <View style={styles.imageContainer}>
           {meal.imageUrl ? (
             <>
@@ -64,12 +63,12 @@ export default function MealDetail() {
           ) : (
             <View style={styles.noImageContainer}>
               <Text style={styles.noImageText}>📷</Text>
-              <Text style={styles.noImageLabel}>Pas de photo</Text>
+              <Text style={styles.noImageLabel}>No photo</Text>
             </View>
           )}
         </View>
         
-        {/* Informations du repas */}
+        {/* Meal Information */}
         <View style={styles.infoContainer}>
           <Text style={styles.mealName}>{meal.nom}</Text>
           <View style={styles.ratingContainer}>
@@ -80,27 +79,26 @@ export default function MealDetail() {
           </View>
           
           <View style={styles.details}>
-            <Text style={styles.detailTitle}>📝 Informations</Text>
-            <Text style={styles.detailText}>🍽️ Nom: <Text style={styles.detailValue}>{meal.nom}</Text></Text>
-            <Text style={styles.detailText}>⭐ Note: <Text style={styles.detailValue}>{meal.note} étoiles</Text></Text>
+            <Text style={styles.detailTitle}>📝 Information</Text>
+            <Text style={styles.detailText}>🍽️ Name: <Text style={styles.detailValue}>{meal.nom}</Text></Text>
+            <Text style={styles.detailText}>⭐ Rating: <Text style={styles.detailValue}>{meal.note} stars</Text></Text>
             <Text style={styles.detailText}>🆔 ID: <Text style={styles.detailValue}>{meal.id}</Text></Text>
           </View>
 
-          {/* Boutons d'action */}
+          {/* Action Buttons */}
           <View style={styles.buttonContainer}>
             <Pressable 
               style={[styles.button, styles.updateButton]} 
               onPress={() => router.push(`/edit/${meal.id}`)}
             >
-              <Text style={styles.buttonText}>✏️ Modifier</Text>
+              <Text style={styles.buttonText}>✏️ Edit</Text>
             </Pressable>
             
             <Pressable 
               style={[styles.button, styles.deleteButton]} 
               onPress={handleDelete}
             >
-              <Text style={styles.buttonText}>🗑️ Supprimer</Text>
-            </Pressable>
+              <Text style={styles.buttonText}>🗑️ Delete
           </View>
         </View>
       </View>

@@ -6,29 +6,15 @@ export default function RootLayout() {
     <MealsProvider>
       <Stack>
         <Stack.Screen 
-          name="index" 
+          name="(tabs)" 
           options={{ 
-            title: 'RateMyMeal',
             headerShown: false 
-          }} 
-        />
-        <Stack.Screen 
-          name="add" 
-          options={{ 
-            title: 'Ajouter un repas',
-            headerStyle: {
-              backgroundColor: 'coral',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
           }} 
         />
         <Stack.Screen 
           name="meal/[id]" 
           options={{ 
-            title: 'Détails du plat',
+            title: 'Meal Details',
             headerStyle: {
               backgroundColor: 'coral',
             },
@@ -41,7 +27,7 @@ export default function RootLayout() {
         <Stack.Screen 
           name="edit/[id]" 
           options={{ 
-            title: 'Modifier le repas',
+            title: 'Edit Meal',
             headerStyle: {
               backgroundColor: '#4CAF50',
             },

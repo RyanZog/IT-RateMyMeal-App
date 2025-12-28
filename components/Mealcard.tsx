@@ -29,7 +29,7 @@ const MealCard = ({ id, name, note, imageUrl }: PropsMeal) => {
         )}
         {isPlaceholder && (
           <View style={styles.nophotobadge}>
-            <Text style={styles.badgeText}>⚠️ Pas de photo</Text>
+            <Text style={styles.badgeText}>⚠️ No photo</Text>
           </View>
         )}
       </View>
@@ -37,7 +37,7 @@ const MealCard = ({ id, name, note, imageUrl }: PropsMeal) => {
       <View style={styles.textContainer}>
         <Text style={styles.text} numberOfLines={1}>🍽️ {name}</Text>
         <Text style={styles.rating}>⭐ {note}/5</Text>
-        <Text style={styles.tapHint}>👆 Détails</Text>
+        <Text style={styles.tapHint}>👆 Details</Text>
       </View>
     </Pressable>
   );

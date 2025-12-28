@@ -15,7 +15,7 @@ export default function EditMealScreen() {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
 
-  // Charge les données du repas à modifier
+  // Load meal data to edit
   useEffect(() => {
     const meal = meals.find(m => m.id === parseInt(id as string));
     if (meal) {
@@ -31,7 +31,7 @@ export default function EditMealScreen() {
     if (status !== 'granted') {
       const { status: newStatus } = await ImagePicker.requestCameraPermissionsAsync();
       if (newStatus !== 'granted') {
-        Alert.alert('Permission refusée', 'Vous devez autoriser l\'accès à la caméra pour utiliser cette fonctionnalité.');
+        Alert.alert('Permission Denied', 'You must allow camera access to use this feature.');
         return false;
       }
     }
@@ -63,20 +63,20 @@ export default function EditMealScreen() {
           await updateMeal(mealId, nom.trim(), noteNumber, imageUrl || PLACEHOLDER_IMAGE_URL);
           router.back();
         } catch (error: any) {
-          Alert.alert('Erreur', error.message);
+          Alert.alert('Error', error.message);
         }
       } else {
-        Alert.alert('Erreur', 'La note doit être entre 0 et 5');
+        Alert.alert('Error', 'Rating must be between 0 and 5');
       }
     } else {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs');
+      Alert.alert('Error', 'Please fill in all fields');
     }
   };
 
   if (isLoading) {
     return (
       <View style={styles.container}>
-        <Text>Chargement...</Text>
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -84,25 +84,25 @@ export default function EditMealScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-        <Text style={styles.title}>Modifier le repas</Text>
+        <Text style={styles.title}>Edit Meal</Text>
 
         <TextInput
           style={styles.input}
           value={nom}
           onChangeText={setNom}
-          placeholder="Nom du repas"
+          placeholder="Meal name"
         />
 
         <TextInput
           style={styles.input}
           value={note}
           onChangeText={setNote}
-          placeholder="Note (entre 0 et 5)"
+          placeholder="Rating (between 0 and 5)"
           keyboardType="numeric"
         />
 
         <Pressable style={styles.cameraButton} onPress={handlePickImage}>
-          <Text style={styles.buttonText}>📷 Changer la photo</Text>
+          <Text style={styles.buttonText}>📷 Change Photo</Text>
         </Pressable>
 
         {imageUrl && (
@@ -112,14 +112,14 @@ export default function EditMealScreen() {
         )}
 
         <Pressable style={styles.button} onPress={handleUpdateMeal}>
-          <Text style={styles.buttonText}>💾 Enregistrer les modifications</Text>
+          <Text style={styles.buttonText}>💾 Save Changes</Text>
         </Pressable>
 
         <Pressable 
           style={[styles.button, styles.cancelButton]} 
           onPress={() => router.back()}
         >
-          <Text style={styles.buttonText}>Annuler</Text>
+          <Text style={styles.buttonText}>Cancel</Text>
         </Pressable>
       </View>
     </View>
