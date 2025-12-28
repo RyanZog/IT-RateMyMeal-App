@@ -48,8 +48,7 @@ export default function MealDetail() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        {/* Image avec fallback */}
-        <View stylwith fallback */}
+        {/* Image with fallback */}
         <View style={styles.imageContainer}>
           {meal.imageUrl ? (
             <>
@@ -98,7 +97,8 @@ export default function MealDetail() {
               style={[styles.button, styles.deleteButton]} 
               onPress={handleDelete}
             >
-              <Text style={styles.buttonText}>🗑️ Delete
+              <Text style={styles.buttonText}>🗑️ Delete</Text>
+            </Pressable>
           </View>
         </View>
       </View>
