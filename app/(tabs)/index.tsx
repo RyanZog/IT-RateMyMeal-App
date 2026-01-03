@@ -49,7 +49,7 @@ export default function Journal() {
       
       {meals.length === 0 ? (
         <View style={styles.emptyState}>
-          <Text style={styles.emptyStateIcon}>📭</Text>
+          <Text style={styles.emptyStateIcon}>🍽️</Text>
           <Text style={styles.emptyStateTitle}>No meals recorded</Text>
           <Text style={styles.emptyStateSubtext}>Press "Add" to start</Text>
         </View>
