@@ -50,7 +50,7 @@ export default function AddMealScreen() {
           setNote("");
           setImageUrl("");
           Alert.alert('Success', 'Meal added successfully!');
-          router.push('/(tabs)/index');
+          router.push('/');
         } catch (error: any) {
           Alert.alert('Error', error.message);
         }
