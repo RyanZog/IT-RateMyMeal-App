@@ -8,7 +8,7 @@ export default function MealDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { meals, deleteMeal } = useMeals();
   
-  // Trouver le plat correspondant a l'ID
+  // Find the meal matching the ID
   const meal = meals.find(m => m.id === parseInt(id as string));
   
   const handleDelete = async () => {
@@ -78,10 +78,9 @@ export default function MealDetail() {
           </View>
           
           <View style={styles.details}>
-            <Text style={styles.detailTitle}>📝 Information</Text>
+            <Text style={styles.detailTitle}>📝 Details</Text>
             <Text style={styles.detailText}>🍽️ Name: <Text style={styles.detailValue}>{meal.nom}</Text></Text>
             <Text style={styles.detailText}>⭐ Rating: <Text style={styles.detailValue}>{meal.note} stars</Text></Text>
-            <Text style={styles.detailText}>🆔 ID: <Text style={styles.detailValue}>{meal.id}</Text></Text>
           </View>
 
           {/* Action Buttons */}

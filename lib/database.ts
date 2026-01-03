@@ -1,20 +1,20 @@
 import { openDatabaseAsync } from 'expo-sqlite';
 
-// Image placeholder par défaut pour les repas sans photo
-export const PLACEHOLDER_IMAGE_URL = 'https://via.placeholder.com/400x300/FFD700/333?text=Aucune+photo';
+// Default image placeholder for meals without photo
+export const PLACEHOLDER_IMAGE_URL = 'https://via.placeholder.com/400x300/FFD700/333?text=No+photo';
 
 let db: any = null;
 
 /**
- * Initialise la base de donnees
- * A appeler une seule fois au démarrage
+ * Initialize the database
+ * Call once on startup
  */
 export async function initializeDatabase() {
   if (!db) {
     db = await openDatabaseAsync('rate-my-meal.db');
   }
 
-  // Cree la table si elle n'existe pas
+  // Create table if it does not exist
   await db.execAsync(`
     PRAGMA journal_mode = WAL;
     CREATE TABLE IF NOT EXISTS meals (
@@ -25,20 +25,20 @@ export async function initializeDatabase() {
     );
   `);
   
-  // Migration: ajouter la colonne imageUrl si elle n'existe pas (pour les anciennes donnees)
+  // Migration: add imageUrl column if it does not exist (for old data)
   try {
     await db.execAsync(`
       ALTER TABLE meals ADD COLUMN imageUrl TEXT NOT NULL DEFAULT '${PLACEHOLDER_IMAGE_URL}';
     `);
   } catch (error) {
-    // La colonne existe deja, pas d'erreur
+      // Column exists, no error
   }
   
   console.log('✅ Database initialized successfully');
 }
 
 /**
- * Récupère tous les repas de la base de données
+ * Get all meals from database
  */
 export async function getAllMeals(): Promise<any[]> {
   if (!db) await initializeDatabase();
@@ -54,7 +54,7 @@ export async function getAllMeals(): Promise<any[]> {
 }
 
 /**
- * Récupère un repas spécifique par son ID
+ * Get meal by ID
  */
 export async function getMealById(id: number): Promise<any> {
   if (!db) await initializeDatabase();
@@ -97,7 +97,7 @@ export async function addMeal(
 }
 
 /**
- * Met à jour un repas existant
+ * Update existing meal
  */
 export async function updateMeal(
   id: number,
@@ -121,7 +121,7 @@ export async function updateMeal(
 }
 
 /**
- * Supprime un repas par son ID
+ * Delete meal by ID
  */
 export async function deleteMeal(id: number): Promise<boolean> {
   if (!db) await initializeDatabase();
@@ -137,7 +137,7 @@ export async function deleteMeal(id: number): Promise<boolean> {
 }
 
 /**
- * Vide complètement la table meals
+ * Delete all meals
  */
 export async function deleteAllMeals(): Promise<boolean> {
   if (!db) await initializeDatabase();
@@ -153,7 +153,7 @@ export async function deleteAllMeals(): Promise<boolean> {
 }
 
 /**
- * Retourne des statistiques sur la base de donneaes
+ * Get database statistics
  */
 export async function getDatabaseStats(): Promise<{ totalMeals: number; avgRating: number }> {
   if (!db) await initializeDatabase();
