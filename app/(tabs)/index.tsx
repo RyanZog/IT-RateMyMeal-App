@@ -43,7 +43,7 @@ export default function Journal() {
       {isLoading && (
         <View style={styles.loadingOverlay}>
           <ActivityIndicator size="large" color="coral" />
-          <Text style={styles.loadingText}>Chargement...</Text>
+          <Text style={styles.loadingText}>Loading...</Text>
         </View>
       )}
       

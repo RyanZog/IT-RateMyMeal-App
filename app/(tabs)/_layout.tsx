@@ -22,7 +22,7 @@ export default function TabLayout() {
         },
       }}
     >
-      {/* Onglet Journal */}
+      {/* Journal tab */}
       <Tabs.Screen
         name="index"
         options={{
@@ -33,18 +33,18 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Onglet Ajouter */}
+      {/* Add tab */}
       <Tabs.Screen
         name="add"
         options={{
-          title: 'Ajouter',
+          title: 'Add',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-circle" size={size} color={color} />
           ),
         }}
       />
 
-      {/* Onglet Statistiques */}
+      {/* Stats tab */}
       <Tabs.Screen
         name="stats"
         options={{
